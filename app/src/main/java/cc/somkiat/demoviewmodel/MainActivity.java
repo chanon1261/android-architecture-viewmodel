@@ -40,8 +40,12 @@ public class MainActivity extends LifecycleActivity {
         listView = (ListView)findViewById(R.id.listView);
         listView.setAdapter(bookAdapter);
 
+        //Original way
+//        bookViewModel = ViewModelProviders.of(this).get(BookViewModel.class);
 
-        bookViewModel = ViewModelProviders.of(this).get(BookViewModel.class);
+        //
+        bookViewModel = createViewModel();
+
         bookViewModel.getBooks().observe(this, new Observer<List<Book>>() {
             @Override
             public void onChanged(@Nullable List<Book> books) {
@@ -56,6 +60,10 @@ public class MainActivity extends LifecycleActivity {
             }
         });
 
+    }
+
+    private BookViewModel createViewModel() {
+        return ViewModelProviders.of(this, new BookViewModelFactory()).get(BookViewModel.class);
     }
 
     @NonNull
